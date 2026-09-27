@@ -1,13 +1,31 @@
 //require('dotenv').config({path : './env'})
-import dotenv from "dotenv";
 import { DB_NAME } from "./constants.js";
 import connectDB from "./db/index.js";
-dotenv.config({
-    path : './env'
+import dotenv from "dotenv";
+ dotenv.config({
+     path : './env'
+ })
+
+
+connectDB()
+.then(() => {
+    app.listen(process.env.PORT || 8000 , () => {
+        console.log(`Server is running on port no : ${process.env.PORT}`);
+        
+    })
+    app.on("error", (error) => {
+            console.log("Error: ", error)
+            throw error
+    })
+})
+.catch( (err) => {
+    console.log("MongoDB facing connection failed issue !!!  ", err);
+    
 })
 
 
-connectDB
+
+
 
 
 
@@ -16,8 +34,11 @@ connectDB
 
 
 /*
+
+import { DB_NAME } from "./constants.js"
+import mongoose from "mongoose"
 import express from "express"
-const app = express()
+const app = express();
 
 ( async () => {
     try {
@@ -25,6 +46,9 @@ const app = express()
         app.on("error", (error) => {
             console.log("Error: ", error)
             throw error
+        })
+        app.get("/",(req,res) => {
+            return res.json(`It's running in get function`)
         })
 
         app.listen(process.env.PORT, () => {
